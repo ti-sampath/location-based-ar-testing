@@ -14,6 +14,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
         }
     </style>
 
@@ -21,10 +22,39 @@
 
 <body>
     <a-scene>
-        <a-box id="box" material="color: yellow"
-            gps-entity-place="latitude: 17.3596806; longitude: 78.3823226" />
+        <a-box id="box" material="color: yellow" gps-entity-place="latitude: 17.3596806; longitude: 78.3823226" />
         <a-camera gps-camera rotation-reader></a-camera>
     </a-scene>
+    <div class="overlay">
+        <div class="geo-location"></div>
+        <button class="place-cube">Place Cube</button>
+    </div>
+
+
+    <style>
+        .overlay{
+            position: fixed;
+            pointer-events: none;
+            height: 100vh;
+            width: 100vw;
+            left: 0;
+            top: 0;
+            border: 2px solid red;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
+        }
+        
+        .overlay *{
+            pointer-events: all;
+        }
+
+        .place-cube{
+            font-weight: bold;
+            font-size: 22px;
+        }
+    </style>
 
 
 

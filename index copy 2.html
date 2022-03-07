@@ -89,24 +89,33 @@
                 // return `<a-box material="color: yellow" gps-entity-place="latitude: ${lat}; longitude: ${lon}" />`;
             }
 
+            let getCurrentPos = () => {
+
+            }
+
             let handlePlaceCube = () => {
-                let options = {
+                var options = {
                     enableHighAccuracy: true,
+                    timeout: 5000,
                     maximumAge: 0
                 };
 
                 function success(pos) {
-                    let { latitude, longitude } = pos.coords;
-                    let box = aBox(latitude, longitude);
-                    aScene.appendChild(box);
-                    alert(`box added @ lat: ${latitude}, lon: ${longitude}`);
+                    var crd = pos.coords;
+                    
+
+                    console.log('Your current position is:');
+                    console.log(`Latitude : ${crd.latitude}`);
+                    console.log(`Longitude: ${crd.longitude}`);
+                    console.log(`More or less ${crd.accuracy} meters.`);
                 }
 
                 function error(err) {
-                    alert(`ERROR(${err.code}): ${err.message}`);
+                    console.warn(`ERROR(${err.code}): ${err.message}`);
                 }
 
                 navigator.geolocation.getCurrentPosition(success, error, options);
+
             }
 
             placeCubeBtn.addEventListener('click', handlePlaceCube);

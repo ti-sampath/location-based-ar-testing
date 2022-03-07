@@ -91,9 +91,11 @@
                 function success(pos) {
                     let { latitude, longitude } = pos.coords;
                     let entity = document.createElement('a-entity');
+                    let colors = ['red','green','blue','yellow','black','pink']; 
+                    color = colors[Math.floor(Math.random()*colors.length)];
                     
                     entity.innerHTML = `
-                        <a-box material="color: yellow" gps-entity-place="latitude: ${latitude}; longitude: ${longitude}">
+                        <a-box material="color: ${color}" gps-entity-place="latitude: ${latitude}; longitude: ${longitude}">
                             <a-camera gps-camera rotation-reader camera position rotation look-controls wasd-controls></a-camera>
                         </a-box>
                     `;

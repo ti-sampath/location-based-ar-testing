@@ -93,21 +93,27 @@
                 let options = {
                     enableHighAccuracy: true,
                     timeout: 0,
-                    maximumAge: 0
+                    maximumAge: 10000
                 };
 
                 function success(pos) {
                     let { latitude, longitude } = pos.coords;
-                    let box = aBox(latitude, longitude);
+                    let box = document.createElement('a-box');                    
                     aScene.appendChild(box);
-                    alert(`box added @ lat: ${latitude}, lon: ${longitude}`);
+                    box.setAttribute('material', 'color: yellow');
+                    box.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
+
+                    let msg = `box added @ lat: ${latitude}, lon: ${longitude}`;
+                    alert(msg);
+                    console.log(msg);
                 }
 
                 function error(err) {
                     alert(`ERROR(${err.code}): ${err.message}`);
                 }
 
-                navigator.geolocation.getCurrentPosition(success, error, options);
+                // navigator.geolocation.getCurrentPosition(success, error, options);
+                navigator.geolocation.getCurrentPosition(success, error);
             }
 
             placeCubeBtn.addEventListener('click', handlePlaceCube);

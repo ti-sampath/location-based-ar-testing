@@ -101,8 +101,11 @@
                     let box = document.createElement('a-box');
                     box.innerHTML = `<a-camera gps-camera rotation-reader camera position rotation look-controls wasd-controls></a-camera>`;
                     aScene.appendChild(box);
-                    box.setAttribute('material', 'color: yellow');
-                    box.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
+                    
+                    setTimeout(()=>{
+                        box.setAttribute('material', 'color: yellow');
+                        box.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
+                    }, 500);
 
                     let msg = `box added @ lat: ${latitude}, lon: ${longitude}`;
                     alert(msg);

@@ -22,10 +22,13 @@
 
 <body>
     <a-scene>
-        <a-box id="box" material="color: yellow" gps-entity-place="latitude: 17.3596806; longitude: 78.3823226" />
+        <a-box id="box" material="color: yellow" gps-entity-place="latitude: 17.359253212789145; longitude: 78.38747194492875" />
         <a-camera gps-camera rotation-reader></a-camera>
     </a-scene>
     <div class="overlay">
+        <div>
+            static: 17.359253212789145, 78.38747194492875
+        </div>
         <div class="geo-location">
             latitude: 17.3596806 <br />
             longitude: 78.3823226
@@ -133,7 +136,7 @@
             function success(pos) {
                 let { latitude, longitude } = pos.coords;
                 let str = `Latitude : ${latitude} <br/> Longitude: ${longitude} <br/> Refresh Count: ${c++}`;
-                geoLocation.innerHTML = str;
+                // geoLocation.innerHTML = str;
             }
 
             function error(err) {

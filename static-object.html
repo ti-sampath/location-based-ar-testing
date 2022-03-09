@@ -24,7 +24,7 @@
     <a-scene>
         <a-box id="box" scale="400 400 400" material="color: red"
             gps-entity-place="latitude: 23.075750; longitude: 72.525000" />
-        <a-camera gps-camera rotation-reader></a-camera>
+        <a-camera look-controls-enabled='false' arjs-look-controls='smoothingFactor: 0.1' gps-camera rotation-reader></a-camera>
     </a-scene>
     <div class="overlay">
         <div style="color: red;">static: 17.359253212789145, 78.38747194492875</div>

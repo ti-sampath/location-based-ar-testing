@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Static Object</title>
+    <title>Location-based AR.js demo</title>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
     <!-- <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script> -->
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
@@ -22,9 +22,130 @@
 
 <body>
     <a-scene>
-        <a-box id="box" height="30" width="5" depth="5"  material="color: yellow" gps-entity-place="latitude: 23.075750; longitude: 72.525000" />
+        <a-box id="box" scale="400 400 400" material="color: red"
+            gps-entity-place="latitude: 23.075750; longitude: 72.525000" />
         <a-camera gps-camera rotation-reader></a-camera>
     </a-scene>
+    <div class="overlay">
+        <div style="color: red;">static: 17.359253212789145, 78.38747194492875</div>
+        <div class="geo-location">
+            latitude: 17.3596806 <br />
+            longitude: 78.3823226
+        </div>
+        <button class="place-cube">Place Cube</button>
+    </div>
+
+
+    <style>
+        .overlay {
+            position: fixed;
+            pointer-events: none;
+            height: 100vh;
+            width: 100vw;
+            left: 0;
+            top: 0;
+            border: 2px solid red;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .overlay * {
+            pointer-events: all;
+        }
+
+        .geo-location {
+            font-size: 22px;
+            font-weight: bold;
+            border: 1px solid black;
+            padding: 10px;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            margin-bottom: 5px;
+            user-select: none;
+        }
+
+        .place-cube {
+            font-weight: bold;
+            font-size: 22px;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 80px;
+        }
+    </style>
+
+    <script>
+        (() => {
+            const aScene = document.querySelector('a-scene');
+            const placeCubeBtn = document.querySelector('.place-cube');
+
+            let colors = ['red', 'yellow', 'green', 'black'];
+
+            let handlePlaceCube = () => {
+                let options = {
+                    enableHighAccuracy: true,
+                    timeout: 0,
+                    maximumAge: 50000
+                };
+
+                function success(pos) {
+                    let { latitude, longitude } = pos.coords;
+                    let entity = document.createElement('a-entity');
+                    let colors = ['red', 'green', 'blue', 'yellow', 'black', 'pink'];
+                    color = colors[Math.floor(Math.random() * colors.length)];
+
+                    entity.innerHTML = `
+                        <a-box material="color: ${color}" gps-entity-place="latitude: ${latitude}; longitude: ${longitude}">
+                            <a-camera gps-camera rotation-reader camera position rotation look-controls wasd-controls></a-camera>
+                        </a-box>
+                    `;
+                    aScene.appendChild(entity);
+                    let msg = `box added @ lat: ${latitude}, lon: ${longitude}`;
+                    console.log(msg);
+                    alert(msg);
+                }
+
+                function error(err) {
+                    alert(`ERROR(${err.code}): ${err.message}`);
+                }
+
+                // navigator.geolocation.getCurrentPosition(success, error, options);
+                navigator.geolocation.getCurrentPosition(success, error, options);
+            }
+
+            placeCubeBtn.addEventListener('click', handlePlaceCube);
+        })();
+    </script>
+
+
+    <script>
+        (() => {
+            let id, c;
+            c = 0;
+            let options = {
+                enableHighAccuracy: true,
+                timeout: 0,
+                maximumAge: 0
+            };
+
+            const geoLocation = document.querySelector('.geo-location');
+
+            function success(pos) {
+                let { latitude, longitude } = pos.coords;
+                let str = `Latitude : ${latitude} <br/> Longitude: ${longitude} <br/> Refresh Count: ${c++}`;
+                geoLocation.innerHTML = str;
+            }
+
+            function error(err) {
+                console.warn(`ERROR(${err.code}): ${err.message}`);
+            }
+
+            navigator.geolocation.watchPosition(success, error);
+        })()
+    </script>
+
 
 </body>
 

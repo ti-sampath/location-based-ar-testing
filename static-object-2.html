@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Location-based AR.js demo</title>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-    <!-- <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script> -->
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
 
     <style>
@@ -22,7 +22,7 @@
 
 <body>
     <a-scene>
-        <a-box id="box" material="color: yellow" gps-entity-place="latitude: 17.3596806; longitude: 78.3823226" />
+        <a-box id="box" height="300" width="5" depth="5"  material="color: red" gps-entity-place="latitude: 17.360851015634992; longitude: 78.38668320198865" />
         <a-camera gps-camera rotation-reader></a-camera>
     </a-scene>
     <div class="overlay">
@@ -81,36 +81,41 @@
 
             let colors = ['red', 'yellow', 'green', 'black'];
 
+            let aBox = (lat, lon) => {
+                let box = document.createElement('a-box');
+                box.setAttribute('material', 'color: yellow');
+                box.setAttribute('gps-entity-place', `latitude: ${lat}; longitude: ${lon}`);
+                return box;
+                // return `<a-box material="color: yellow" gps-entity-place="latitude: ${lat}; longitude: ${lon}" />`;
+            }
+
+            let getCurrentPos = () => {
+
+            }
+
             let handlePlaceCube = () => {
-                let options = {
+                var options = {
                     enableHighAccuracy: true,
-                    timeout: 0,
-                    maximumAge: 50000
+                    timeout: 5000,
+                    maximumAge: 0
                 };
 
                 function success(pos) {
-                    let { latitude, longitude } = pos.coords;
-                    let entity = document.createElement('a-entity');
-                    let colors = ['red','green','blue','yellow','black','pink']; 
-                    color = colors[Math.floor(Math.random()*colors.length)];
+                    var crd = pos.coords;
                     
-                    entity.innerHTML = `
-                        <a-box material="color: ${color}" gps-entity-place="latitude: ${latitude}; longitude: ${longitude}">
-                            <a-camera gps-camera rotation-reader camera position rotation look-controls wasd-controls></a-camera>
-                        </a-box>
-                    `;
-                    aScene.appendChild(entity);
-                    let msg = `box added @ lat: ${latitude}, lon: ${longitude}`;
-                    console.log(msg);
-                    alert(msg);
+
+                    console.log('Your current position is:');
+                    console.log(`Latitude : ${crd.latitude}`);
+                    console.log(`Longitude: ${crd.longitude}`);
+                    console.log(`More or less ${crd.accuracy} meters.`);
                 }
 
                 function error(err) {
-                    alert(`ERROR(${err.code}): ${err.message}`);
+                    console.warn(`ERROR(${err.code}): ${err.message}`);
                 }
 
-                // navigator.geolocation.getCurrentPosition(success, error, options);
                 navigator.geolocation.getCurrentPosition(success, error, options);
+
             }
 
             placeCubeBtn.addEventListener('click', handlePlaceCube);
@@ -147,4 +152,4 @@
 
 </body>
 
-</html>         
+</html>
